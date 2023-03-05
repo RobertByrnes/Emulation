@@ -271,15 +271,12 @@ public:
      */
     template<typename T>
     T findRetVal(MethodProfile &method) {
-std::string methodName = "find ret val for " + std::string(method.methodName);
-log_out<const char *>(methodName.c_str());
         T value;
         // if n > 0 return and decrement n
         if (method.retVal.first > 0) {
             --method.retVal.first;
             try {
                 value = std::any_cast<T>(method.retVal.second); 
-log_out<const char *>("value found");return value;
             } catch (std::bad_any_cast e) {
                 EMULATION_LOG(e.what());
             }
