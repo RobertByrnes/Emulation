@@ -1,0 +1,28 @@
+{
+    "name": "Emulation",
+    "version": "0.0.1",
+    "description": "A mocking framework for unit tests in PlatformIO",
+    "keywords": "unit tests, tests, unity, pio test",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/RobertByrnes/Emulation.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Robert Byrnes",
+        "email": "robbyrnes@hotmail.co.uk",
+        "maintainer": true
+      }
+    ],
+    "license": "GPL-3.0-or-later",
+    "frameworks": "*",
+    "platforms": "espressif32, arduino",
+    "headers": ["emulation.h"],
+    "examples": "examples/*/*",
+    "dependencies":
+    {
+        "https://github.com/RobertByrnes/ArduinoFake.git": "^1.0.1"
+    }
+  }
