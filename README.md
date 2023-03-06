@@ -1,3 +1,28 @@
+<h1 align="center">Emulation Framework for Unity</h1>
+
+<p align="center">
+
+<img src="https://img.shields.io/badge/made%20by-RobertByrnes-blue.svg" >
+
+<img src="https://img.shields.io/npm/v/vue2-baremetrics-calendar">
+
+<img src="https://img.shields.io/badge/vue-2.6.10-green.svg">
+
+<img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103" >
+
+<img src="https://img.shields.io/github/stars/silent-lad/Vue2BaremetricsCalendar.svg?style=flat">
+
+<img src="https://img.shields.io/github/languages/top/silent-lad/Vue2BaremetricsCalendar.svg">
+
+<img src="https://img.shields.io/github/issues/silent-lad/Vue2BaremetricsCalendar.svg">
+
+<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat">
+</p>
+
+_A Vue.js wrapper for the beautiful date-range picker made by the **[Baremetrics](https://baremetrics.com)** team._
+
+---
+
 # Emulator
 Emulator is a C++ class designed to provide a flexible environment for creating mock classes to be used in Unit Testing within the PlatformIO framework for IoT devices. This class can be extended and customized to create various types of Mock classes which can be used to simulate real-world scenarios, such as HTTP requests for testing purposes.
 
@@ -103,30 +128,6 @@ throwException(const char * func): checks to see whether an exception has been r
 invokeMethod(const char * methodName): calls the real implementation of the named function.
 There are also two template methods (mock and doReturn) defined here, but they don't appear to be part of the public interface -- it looks like they'll only be called internally by the derived class.
 
-<h1 align="center">Emulation Framework for Unity</h1>
-
-<p align="center">
-
-<img src="https://img.shields.io/badge/made%20by-RobertByrnes-blue.svg" >
-
-<img src="https://img.shields.io/npm/v/vue2-baremetrics-calendar">
-
-<img src="https://img.shields.io/badge/vue-2.6.10-green.svg">
-
-<img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103" >
-
-<img src="https://img.shields.io/github/stars/silent-lad/Vue2BaremetricsCalendar.svg?style=flat">
-
-<img src="https://img.shields.io/github/languages/top/silent-lad/Vue2BaremetricsCalendar.svg">
-
-<img src="https://img.shields.io/github/issues/silent-lad/Vue2BaremetricsCalendar.svg">
-
-<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat">
-</p>
-
-_A Vue.js wrapper for the beautiful date-range picker made by the **[Baremetrics](https://baremetrics.com)** team._
-
----
 
 # Emulation Framework for PlatformIO
 The Emulation Framework is a powerful tool that enables developers to test their code in a controlled environment. The Emulation Framework allows the developer to simulate hardware peripherals and other elements that would normally be present in the production environment.
