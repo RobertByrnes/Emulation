@@ -17,6 +17,7 @@
 <img src="https://img.shields.io/github/issues/silent-lad/Vue2BaremetricsCalendar.svg"> -->
 
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat">
+
 </p>
 
 ![The Emulator At Work](emulator_at_work.jpg?raw=true "Emulation")
@@ -36,7 +37,7 @@ This package is designed to integrate with the PlatformIO development environmen
 # Installation
 You can install Emulation in your test files via the PlatformIO library manager. Simply search for "Emulation" and click "Add to Project". Alternatively, you can add the following line to your platformio.ini file:
 
-```C++
+```ini
 lib_deps = digitaldragon/Emulation@^0.0.5
 ```
 ### Configuration
