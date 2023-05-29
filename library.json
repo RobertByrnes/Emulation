@@ -24,6 +24,6 @@
     "dependencies":
     {
         "name": "ArduinoFake",
-        "version": "https://github.com/RobertByrnes/ArduinoFake.git#hotfix/libraries"
+        "version": "https://github.com/RobertByrnes/ArduinoFake.git#master"
     }
   }
