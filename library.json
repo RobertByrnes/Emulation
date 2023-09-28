@@ -1,34 +1,46 @@
 {
-    "name": "Emulation",
-    "version": "0.1.0",
-    "description": "A mocking framework for unit tests in PlatformIO",
-    "keywords": "unit tests, tests, unity, pio test",
-    "repository":
+  "name": "Emulation",
+  "version": "0.1.0",
+  "description": "Emulation: The Ultimate Mocking Framework for Streamlined Unit Testing in PlatformIO. Effortlessly emulate hardware peripherals and complex environments to ensure your code is optimized and bug-free.",
+  "keywords": [
+      "unit tests",
+      "testing",
+      "mocking",
+      "emulation",
+      "development",
+      "debugging",
+      "IoT",
+      "PlatformIO",
+      "ESP32",
+      "Arduino"
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobertByrnes/Emulation.git"
+  },
+  "authors":
+  [
     {
-      "type": "git",
-      "url": "https://github.com/RobertByrnes/Emulation.git"
+      "name": "Robert Byrnes",
+      "email": "robbyrnes@hotmail.co.uk",
+      "maintainer": true
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/RobertByrnes/Emulation#readme",
+  "frameworks": "*",
+  "platforms": ["espressif32", "arduino"],
+  "headers": ["emulation.h"],
+  "examples": "examples/*/*",
+  "dependencies": [
+    {
+        "name": "ArduinoFake",
+        "version": "https://github.com/RobertByrnes/ArduinoFake.git#master"
     },
-    "authors":
-    [
-      {
-        "name": "Robert Byrnes",
-        "email": "robbyrnes@hotmail.co.uk",
-        "maintainer": true
-      }
-    ],
-    "license": "GPL-3.0-or-later",
-    "frameworks": "*",
-    "platforms": "espressif32, arduino",
-    "headers": ["emulation.h"],
-    "examples": "examples/*/*",
-    "dependencies": [
-      {
-          "name": "ArduinoFake",
-          "version": "https://github.com/RobertByrnes/ArduinoFake.git#master"
-      },
-      {
-          "name": "Unity",
-          "version": "https://github.com/ThrowTheSwitch/Unity.git#master"
-      }
-    ]
-  }
+    {
+        "name": "Unity",
+        "version": "https://github.com/ThrowTheSwitch/Unity.git#master"
+    }
+  ]
+}
