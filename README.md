@@ -1,3 +1,7 @@
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/digitaldragon/library/Emulation.svg)](https://registry.platformio.org/libraries/digitaldragon/Emulation)
+
+![arduino-library-badge](https://www.ardu-badge.com/badge/Emulation.svg) 
+
 <h1 align="center">Emulation</h1>
 
 <p align="center">
