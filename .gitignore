@@ -4,3 +4,4 @@ src/main.cpp
 src/include/*
 *.log
 *.txt
+!LICENCE.txt
