@@ -1,6 +1,6 @@
 {
     "name": "Emulation",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "description": "A mocking framework for unit tests in PlatformIO",
     "keywords": "unit tests, tests, unity, pio test",
     "repository":
@@ -27,7 +27,7 @@
           "version": "https://github.com/RobertByrnes/ArduinoFake.git#master"
       },
       {
-          "name": "Uinty",
+          "name": "Unity",
           "version": "https://github.com/ThrowTheSwitch/Unity.git#master"
       }
     ]

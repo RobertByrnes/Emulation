@@ -4,23 +4,168 @@
 #include <Arduino.h>
 #include <unity.h>
 #include <ctime>
+#include <cstdarg>
+#include "FunctionEmulator.h"
+#include "TimeFunctionEmulators.h"
 
-// TODO remove from here if ArduinoFake is replaced entirely
-// Cover ourselves for the millis function as the ArduinoFake fails in this case
-// std::clock_t EMULATION_START = std::clock();
-unsigned long _milliseconds = 1000;
-unsigned long milliseconds() { _milliseconds += _milliseconds; return _milliseconds; }
-// unsigned long milliseconds() { return std::clock() - EMULATION_START / (double)(CLOCKS_PER_SEC / 1000); }
+/**
+ * \var MillisFunctionEmulator millisEmulator
+ * \brief An instance of the MillisFunctionEmulator class.
+ * 
+ * This instance emulates the behavior of the millis function found in embedded 
+ * systems, providing a controlled environment for time-sensitive testing scenarios.
+ */
+MillisFunctionEmulator millisEmulator;
+
+/**
+ * \var DelayFunctionEmulator delayEmulator
+ * \brief An instance of the DelayFunctionEmulator class.
+ * 
+ * This instance simulates the behavior of the delay function found in embedded 
+ * systems. Instead of causing an actual delay, it provides a test-friendly emulation 
+ * ensuring that unit tests run efficiently without real-world waiting.
+ */
+DelayFunctionEmulator delayEmulator;
+
+/**
+ * \var FunctionEmulator log_d_stub
+ * \brief An emulator instance for the debug log function.
+ * 
+ * This instance emulates the behavior of the debug log function (typically represented as "log_d" in embedded systems). 
+ * It captures and logs debug messages for testing and verification purposes.
+ */
+FunctionEmulator log_d_stub("log_d");
+
+/**
+ * \var FunctionEmulator log_i_stub
+ * \brief An emulator instance for the info log function.
+ * 
+ * This instance emulates the behavior of the info log function (typically represented as "log_i" in embedded systems). 
+ * It captures and logs informational messages for testing and verification purposes.
+ */
+FunctionEmulator log_i_stub("log_i");
+
+/**
+ * \var FunctionEmulator log_w_stub
+ * \brief An emulator instance for the warning log function.
+ * 
+ * This instance emulates the behavior of the warning log function (typically represented as "log_w" in embedded systems). 
+ * It captures and logs warning messages for testing and verification purposes.
+ */
+FunctionEmulator log_w_stub("log_w");
+
+/**
+ * \var FunctionEmulator log_e_stub
+ * \brief An emulator instance for the error log function.
+ * 
+ * This instance emulates the behavior of the error log function (typically represented as "log_e" in embedded systems). 
+ * It captures and logs error messages for testing and verification purposes.
+ */
+FunctionEmulator log_e_stub("log_e");
+
+/**
+ * \var FunctionEmulator log_v_stub
+ * \brief An emulator instance for the verbose log function.
+ * 
+ * This instance emulates the behavior of the verbose log function (typically represented as "log_v" in embedded systems). 
+ * It captures and logs detailed verbose messages for testing and verification purposes.
+ */
+FunctionEmulator log_v_stub("log_v");
+
+/**
+ * \fn void log_d(const char* format, ...)
+ * \brief Mocked debug log function.
+ * 
+ * Emulates the behavior of the debug log function, capturing the arguments
+ * and recording the function call for testing and verification.
+ * 
+ * \param format Format string for the log message.
+ * \param ... Variable arguments for the format string.
+ */
+void log_d(const char* format, ...) { 
+  va_list args;
+  va_start(args, format);
+  log_d_stub.captureArgs(format, args);
+  va_end(args);
+  log_d_stub.recordFunctionCall();
+}
+
+/**
+ * \fn void log_i(const char* format, ...)
+ * \brief Mocked info log function.
+ * 
+ * Emulates the behavior of the info log function, capturing the arguments
+ * and recording the function call for testing and verification.
+ * 
+ * \param format Format string for the log message.
+ * \param ... Variable arguments for the format string.
+ */
+void log_i(const char* format, ...) { 
+  va_list args;
+  va_start(args, format);
+  log_i_stub.captureArgs(format, args);
+  va_end(args);
+  log_i_stub.recordFunctionCall();
+}
+
+/**
+ * \fn void log_v(const char* format, ...)
+ * \brief Mocked verbose log function.
+ * 
+ * Emulates the behavior of the verbose log function, capturing the arguments
+ * and recording the function call for testing and verification.
+ * 
+ * \param format Format string for the log message.
+ * \param ... Variable arguments for the format string.
+ */
+void log_v(const char* format, ...) { 
+  va_list args;
+  va_start(args, format);
+  log_v_stub.captureArgs(format, args);
+  va_end(args);
+  log_v_stub.recordFunctionCall();
+}
+
+/**
+ * \fn void log_w(const char* format, ...)
+ * \brief Mocked warning log function.
+ * 
+ * Emulates the behavior of the warning log function, capturing the arguments
+ * and recording the function call for testing and verification.
+ * 
+ * \param format Format string for the log message.
+ * \param ... Variable arguments for the format string.
+ */
+void log_w(const char* format, ...) { 
+  va_list args;
+  va_start(args, format);
+  log_w_stub.captureArgs(format, args);
+  va_end(args);
+  log_w_stub.recordFunctionCall();
+}
+
+/**
+ * \fn void log_e(const char* format, ...)
+ * \brief Mocked error log function.
+ * 
+ * Emulates the behavior of the error log function, capturing the arguments
+ * and recording the function call for testing and verification.
+ * 
+ * \param format Format string for the log message.
+ * \param ... Variable arguments for the format string.
+ */
+void log_e(const char* format, ...) { 
+  va_list args;
+  va_start(args, format);
+  log_e_stub.captureArgs(format, args);
+  va_end(args);
+  log_e_stub.recordFunctionCall();
+}
 
 #if not defined(ARDUINO)
-#define log_i(...) 
-#define log_w(...)
-#define log_d(...) 
-#define log_e(...) 
-#define vTaskDelay(...)
-#define millis()                                    milliseconds()
-#else
-#define millis()                                    milliseconds()
+  #define delay(x) delayEmulator.mockDelay(x)
+  #define millis() millisEmulator.mockMillis()
+  #define ResetEmulators() millisEmulator.resetMillis()
 #endif
 
-#endif
+#endif // end of EMULATION_FRAME_H
