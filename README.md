@@ -42,7 +42,7 @@ This package is designed to integrate with the PlatformIO development environmen
 You can install Emulation in your test files via the PlatformIO library manager. Simply search for "Emulation" and click "Add to Project". Alternatively, you can add the following line to your platformio.ini file (ensure you are using the latest version):
 
 ```ini
-lib_deps = digitaldragon/Emulation@^0.1.0
+lib_deps = digitaldragon/Emulation@^0.1.4
 ```
 ### Configuration
 In order to configure the PlatformIO test environment to run natively without a requiring firmware upload it is suggested that a native environment is added to your platformio.ini file as follows:
@@ -57,7 +57,7 @@ build_flags =
 	-DCORE_DEBUG_LEVEL=5
 	-std=gnu++17
 build_unflags = -std=gnu++11
-lib_deps = digitaldragon/Emulation@0.1.0
+lib_deps = digitaldragon/Emulation@0.1.4
 test_testing_command = ${platformio.build_dir}/${this.__env__}/program
 ```
 

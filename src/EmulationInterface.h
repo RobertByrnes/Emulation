@@ -46,13 +46,6 @@ public:
    * \brief           Dumps the methods associated with the emulator.
    */
   virtual void dumpMethods() = 0;
-
- /**
-   * \brief           Configures the emulator to return a specific value when a method is called.
-   * \param func      The name of the method.
-   * \param var_t     The value that should be returned when the method is invoked.
-   */
-  virtual Emulator& returns(std::string func, std::any var_t, int delay_ms = 0) = 0;
       
   /**
    * \brief           Sets an exception for a method.
