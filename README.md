@@ -142,7 +142,7 @@ In order to emulate a method, we need to create a MethodProfile. A MethodProfile
 ```C++
 typedef std::pair<int, std::any> RetVal;
 typedef struct {
-    const char * methodName;
+    std::string methodName;
     RetVal retVal;
     std::vector<RetVal> then = {};
     int invoked = 0;

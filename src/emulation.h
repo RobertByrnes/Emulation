@@ -162,10 +162,24 @@ void log_e(const char* format, ...) {
   log_e_stub.recordFunctionCall();
 }
 
+/**
+ * \fn void resetEmulators()
+ * \brief Resets all emulators to their default state.
+ * 
+ */
+void resetEmulators() {
+  millisEmulator.resetMillis();
+  log_d_stub.reset();
+  log_i_stub.reset();
+  log_v_stub.reset();
+  log_w_stub.reset();
+  log_e_stub.reset();
+}
+
 #if not defined(ARDUINO)
   #define delay(x) delayEmulator.mockDelay(x)
   #define millis() millisEmulator.mockMillis()
-  #define ResetEmulators() millisEmulator.resetMillis()
+  #define ResetEmulators() resetEmulators()
 #endif
 
 #endif // end of EMULATION_FRAME_H

@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO move to package
 #if not defined(EMULATOR_H)
 #define EMULATOR_H
 
@@ -14,9 +13,7 @@
 #include <ostream>
 #include <unistd.h>
 
-unsigned int microseconds = 1000000;
-
-using namespace std;
+static const unsigned int microseconds = 1000000;
 
 #define PSUEDO_EXCEPTION_NO_RET_VAL         (10000)
 #define PSUEDO_EXCEPTION_NO_EXCEPT          (20000)
@@ -55,7 +52,7 @@ public:
    * holds resources like memory allocations or open file handles, ensure they are 
    * freed or closed here.
    */
-  ~Emulator() {}
+  virtual ~Emulator() {}
 
   /**
    * \brief Sets the inactive period for this class instance.
@@ -78,8 +75,9 @@ public:
   void await() {
     if (_wait <= 0) {
       return;
-    } 
-    usleep(_wait * microseconds);
+    }
+
+    usleep(_wait * 1000000);
   }
 
   /**
@@ -114,7 +112,7 @@ public:
    * represented by its function name. When this mocked method is later called, 
    * it will return the configured return value after waiting for the specified delay.
    * 
-   * \param func        const char* - The name of the method/function being mocked.
+   * \param func        std::string - The name of the method/function being mocked.
    * \param var_t       any - The value that the mocked function should return.
    * \param delay_ms    int - An optional delay in milliseconds to be applied before 
    *                   returning the value. Default is 0, meaning no delay.
@@ -122,7 +120,7 @@ public:
    * \return Emulator&  A reference to the current Emulator instance, allowing for 
    *                   method chaining.
    */
-  virtual Emulator& returns(const char * func, any var_t, int delay_ms = 0) {
+  virtual Emulator& returns(std::string func, any var_t, int delay_ms = 0) {
     _lastFunc = func;
     RetVal retVal = { 1, var_t };
     vector<RetVal> then = {};
@@ -200,7 +198,7 @@ public:
    * When the specified mock method is called, instead of returning 
    * a value, it will throw the provided exception.
    * 
-   * \param func          const char* - The name of the mock method for which 
+   * \param func          std::string - The name of the mock method for which 
    *                     the exception behavior is to be set.
    * \param exception     uint16_t - The numeric exception code to be thrown 
    *                     when the mock method is called.
@@ -213,8 +211,8 @@ public:
    * \todo Consider changing the data structure from std::map to std::pair 
    *       for better performance.
    */
-  void setException(const char * func, uint16_t exception) {     
-    std::map<const char *, uint16_t> exceptionMap { { func, exception } };
+  void setException(std::string func, uint16_t exception) {     
+    std::map<std::string, uint16_t> exceptionMap { { func, exception } };
     _exceptions.push_back(exceptionMap);
   }
 
@@ -248,11 +246,11 @@ public:
   /**
    * \brief Stores the provided method in the _methods vector.
    * 
-   * \param methodName   const char* - The name of the method.
+   * \param methodName   std::string - The name of the method.
    * \param method       void (*method)() - A pointer to the method function.
    * \param var_t        std::any - A value of any type that the method should return.
    */
-  void setMethod(const char *methodName, void (*method)(), std::any var_t) {
+  void setMethod(std::string methodName, void (*method)(), std::any var_t) {
     RetVal retVal = { 1, var_t };
     vector<RetVal> then = {};
     MethodProfile invokableMethod = { methodName, retVal, then, 0, 0 };
@@ -268,7 +266,7 @@ public:
    * been invoked. This function is useful for tracking how many times 
    * a mock method is called during testing.
    * 
-   * \param methodName    const char* - The name of the mock method 
+   * \param methodName    std::string - The name of the mock method 
    *                      that is being invoked.
    * 
    * \note Currently, the actual method is commented out and only the 
@@ -276,7 +274,7 @@ public:
    *       to actually call the method or do more, remember to modify 
    *       this doc-block accordingly.
    */
-  void invokeMethod(const char * methodName) {
+  void invokeMethod(std::string methodName) {
     for(auto method : _methods) {
       if (method.methodName == methodName) {    
         method.invoked += 1;
@@ -295,7 +293,7 @@ public:
    * the exception. Otherwise, it returns the predefined return value for the mock method.
    * 
    * \tparam T       typename - Expected return type of the mock method.
-   * \param func     const char* - The name of the mock method that is being emulated.
+   * \param func     std::string - The name of the mock method that is being emulated.
    * 
    * \return T       Returns the emulated output (return value) of the mock method.
    * 
@@ -305,7 +303,7 @@ public:
    *       and return values respectively.
    */
   template<typename T>
-  T mock(const char * func) {
+  T mock(std::string func) {
     string logMsg = string("Entered mock method for ") + string(func);
     EMULATION_LOG(logMsg.c_str());
     
@@ -336,14 +334,14 @@ public:
    * based on the method's configuration.
    * 
    * \tparam T       typename - Expected return type of the mock method.
-   * \param func     const char* - The name of the mock method whose return value is to be fetched.
+   * \param func     std::string - The name of the mock method whose return value is to be fetched.
    * 
    * \return T       Returns the emulated output (return value) of the mock method.
    * 
    * \note This method relies on findRetVal to determine the exact return value.
    */
   template<typename T>
-  T doReturn(const char * func) { 
+  T doReturn(std::string func) { 
     T value;
     for (auto &method : _methods) {
       if (method.methodName == func) {
@@ -427,7 +425,7 @@ public:
    * \return int      The exception code if one is mapped to the function. If no exception is found, 
    *                  -1 is returned.
    */
-  int throwException(const char * func) {
+  int throwException(std::string func) {
     for (auto exception : _exceptions) {
       if (auto part = exception.find(func); part != exception.end()) {
         return part->second;
@@ -444,7 +442,7 @@ public:
    */
   vector<MethodProfile> _methods;
 
-  protected:
+private:
   /**
    * \brief The amount of time the emulator will wait (in seconds) before executing a method.
    * 
@@ -469,11 +467,11 @@ public:
 
   /**
    * \brief Throwable exceptions for this mock instance. Stored as a std::map
-   * of function name (const char *) and exception (int).
+   * of function name (std::string) and exception (int).
    * Currently only integer supported.
    * 
    */
-  vector<std::map<const char *, uint16_t>> _exceptions;
+  vector<std::map<std::string, uint16_t>> _exceptions;
 };
 
 #endif

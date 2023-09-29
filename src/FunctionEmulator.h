@@ -14,13 +14,11 @@
 #include <any>
 #include <string>
 
-using namespace std;
-
 class FunctionEmulator : public Emulator {
 public:
-  explicit FunctionEmulator(const std::string& funcName) : _functionName(funcName), _callCount(0) {}
+  explicit FunctionEmulator(std::string funcName) : _functionName(funcName), _callCount(0), _capturedArgs() {}
   
-  ~FunctionEmulator() {}
+  virtual ~FunctionEmulator() {}
 
   /**
    * \brief Overrides the `returns` method to handle special behavior for specific functions and introduce delays.
@@ -28,13 +26,13 @@ public:
    * This method captures the function call for the specified function name and records its call before delegating the behavior to the parent class.
    * It allows for a delay to be introduced after the function is called. This delay can be useful in testing scenarios where timing is critical.
    * 
-   * \param func      const char*    - The name of the function for which the return value is being set.
+   * \param func      std::string    - The name of the function for which the return value is being set.
    * \param var_t     any            - The return value to be set for the function.
    * \param delay_ms  int            - The delay in milliseconds to be introduced after the function is called. Default value is 0, meaning no delay.
    * 
    * \return Emulator& - Returns a reference to the Emulator, allowing for method chaining.
    */
-  Emulator& returns(const char *func, any var_t, int delay_ms = 0) override {
+  Emulator& returns(std::string func, any var_t, int delay_ms = 0) override {
     if (_functionName == func) {
       recordFunctionCall();
     }
@@ -129,7 +127,7 @@ private:
    * It is used to determine if a given call is intended for this particular function mock.
    * 
    */
-  const std::string& _functionName;
+  const std::string _functionName;
 
   /**
    * \brief Counter for the number of times the function has been called.

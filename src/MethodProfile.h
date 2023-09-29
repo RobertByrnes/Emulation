@@ -3,6 +3,7 @@
 
 #include <any>
 #include <vector>
+#include <string>
 
 /**
  * \brief Represents a return value configuration for a mocked method.
@@ -26,7 +27,7 @@ typedef std::pair<int, std::any> RetVal;
  * potential subsequent return values in a 'then' sequence), the number of times it
  * has been invoked, and an optional delay before returning the value.
  *
- * \param methodName  const char* - The name of the method/function being mocked.
+ * \param methodName  std::string - The name of the method/function being mocked.
  * \param retVal      RetVal - The primary return value configuration for the method.
  * \param then        std::vector<RetVal> - A list of subsequent return values 
  *                     the method should return after the primary value has been used.
@@ -35,7 +36,7 @@ typedef std::pair<int, std::any> RetVal;
  *                     returning the value. Default is 0, meaning no delay.
  */
 typedef struct {
-    const char * methodName;
+    std::string methodName;
     RetVal retVal;
     std::vector<RetVal> then = {};
     int invoked = 0;

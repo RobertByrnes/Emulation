@@ -29,7 +29,7 @@ public:
   
   vector<MethodProfile> _methods; // A list of methods associated with the emulator.
 
-  vector<std::map<const char *, uint16_t>> _exceptions; // A list of exceptions for the emulator.
+  vector<std::map<std::string, uint16_t>> _exceptions; // A list of exceptions for the emulator.
 
   /**
    * \brief           Sets the wait time.
@@ -52,14 +52,14 @@ public:
    * \param func      The name of the method.
    * \param var_t     The value that should be returned when the method is invoked.
    */
-  virtual Emulator& returns(const char * func, std::any var_t, int delay_ms = 0) = 0;
+  virtual Emulator& returns(std::string func, std::any var_t, int delay_ms = 0) = 0;
       
   /**
    * \brief           Sets an exception for a method.
    * \param func      The method's name.
    * \param exception The exception to set.
    */
-  virtual void setException(const char * func, uint16_t exception) = 0;
+  virtual void setException(std::string func, uint16_t exception) = 0;
 
   /**
    * \brief           Resets the emulator's state.
@@ -77,7 +77,7 @@ public:
    * \param func      The method's name.
    * \return          The exception code.
    */
-  virtual int throwException(const char * func) = 0;
+  virtual int throwException(std::string func) = 0;
 
   /**
    * \brief           Sets a method for the emulator.
@@ -85,13 +85,13 @@ public:
    * \param function  A pointer to the method function.
    * \param var_t     The return value for the method.
    */
-  virtual void setMethod(const char * func, void (*function)(),  std::any var_t) = 0;
+  virtual void setMethod(std::string func, void (*function)(),  std::any var_t) = 0;
 
   /**
    * \brief           Invokes a method by its name.
    * \param methodName The name of the method to invoke.
    */
-  virtual void invokeMethod(const char * methodName) = 0;
+  virtual void invokeMethod(std::string methodName) = 0;
 
   /**
    * \brief           A mock method. Should be overridden by derived classes.
@@ -99,7 +99,7 @@ public:
    * \return          A value of type T.
    */
   template<typename T>
-  T mock(const char * func) {}
+  T mock(std::string func) {}
   
   /**
    * \brief           Determines the return value for a method. Should be overridden by derived classes.
@@ -107,7 +107,7 @@ public:
    * \return          A value of type T.
    */
   template<typename T>
-  T doReturn(const char * func) {}
+  T doReturn(std::string func) {}
 };
 
 #endif
