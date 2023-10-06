@@ -1,6 +1,6 @@
 {
   "name": "Emulation",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Emulation: The Ultimate Mocking Framework for Streamlined Unit Testing in PlatformIO. Effortlessly emulate hardware peripherals and complex environments to ensure your code is optimized and bug-free.",
   "keywords": [
       "unit tests",

@@ -310,6 +310,8 @@ public:
     // Find the method in _methods and if found, delay by its specific delay amount
     for (auto &method : _methods) {
       if (method.methodName == func) {
+        logMsg = "Delaying method " + func + " by " + std::to_string(method.delay) + " milliseconds";
+        EMULATION_LOG(logMsg.c_str());
         usleep(method.delay * 1000);
         break;
       }
@@ -317,6 +319,8 @@ public:
 
     int exception = throwException(func);
     if (exception > -1) {
+      logMsg = "Found expected exception for method " + func + ": Exception Code " + std::to_string(exception);
+      EMULATION_LOG(logMsg.c_str());
       EMULATION_LOG("Throwing expected exception");
       throw exception;
     }

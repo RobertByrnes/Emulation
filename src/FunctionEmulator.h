@@ -9,6 +9,7 @@
 #endif
 
 #include "Emulator.h"
+#include "ArgContext.h"
 #include <algorithm>
 #include <vector>
 #include <any>
@@ -35,6 +36,7 @@ public:
   Emulator& returns(std::string func, any var_t, int delay_ms = 0) override {
     if (_functionName == func) {
       recordFunctionCall();
+      EMULATION_LOG(("FunctionEmulator::returns() - " + func + " was called " + std::to_string(_callCount) + " times.").c_str());
     }
     return Emulator::returns(func, var_t, delay_ms);
   }
@@ -76,6 +78,7 @@ public:
     _callCount = 0;
     _capturedArgs.clear();
     Emulator::reset();
+    EMULATION_LOG(("FunctionEmulator::reset() - Reset function emulator for " + _functionName).c_str());
   }
 
   /**
@@ -93,17 +96,19 @@ public:
   /**
    * \brief Captures and stores the arguments passed to the function.
    * 
-   * This method captures the variable arguments formatted as per the provided
-   * format string and saves them in the `_capturedArgs` vector for later inspection.
+   * This method captures a variable number of arguments and saves them 
+   * in the `_capturedArgs` vector for later inspection. The arguments are 
+   * stored as instances of `std::any`, allowing for flexibility in the 
+   * types of captured arguments.
    * 
-   * \param format const char* - A printf-style format string that specifies how the
-   * subsequent arguments are used.
-   * \param args va_list - A list of arguments to format and store.
+   * \tparam Args Variadic template argument representing any number of 
+   * types of function arguments.
+   * 
+   * \param args A variable number of arguments to store.
    */
-  void captureArgs(const char* format, va_list args) {
-    char buffer[512];
-    vsnprintf(buffer, sizeof(buffer), format, args);
-    _capturedArgs.push_back(buffer);
+  template<typename... Args>
+  void captureArgs(Args... args) {
+    _capturedArgs.emplace_back(std::initializer_list<std::any>{args...});
   }
 
   /**
@@ -113,11 +118,14 @@ public:
    * in the `_capturedArgs` vector. It can be used to inspect or verify the arguments
    * passed to the mocked function during testing.
    * 
-   * \return std::vector<std::string> - A list of formatted arguments that were previously captured.
+   * \return std::vector<std::vector<std::any>> - A nested vector where each inner vector contains 
+   * the captured arguments of a particular function call, stored as instances of `std::any`.
    */
-  std::vector<std::string> getArguments() const {
-    return _capturedArgs;
+  ArgContext getArguments() const {
+    ArgContext args(_capturedArgs);
+    return args;
   }
+
   
 private:
   /**
@@ -140,10 +148,11 @@ private:
   /**
    * \brief Stores the arguments that were passed to the emulated function.
    * 
-   * Each time the function is called with arguments, they are formatted as a string and stored in this vector.
-   * This enables later inspection or verification of the arguments passed during testing.
+   * Each time the function is called, its arguments are captured and stored 
+   * as a new vector inside this nested vector. This structure enables later 
+   * inspection or verification of the arguments passed during testing.
    */
-  std::vector<std::string> _capturedArgs;
+  CapturedArgs_t _capturedArgs;
 };
 
 #endif

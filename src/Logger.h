@@ -1,5 +1,6 @@
 #pragma once
-
+#undef abs // remove abs macro from Arduino.h
+#undef round // remove round macro from Arduino.h
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -30,11 +31,16 @@ ofstream logFile("emulation.log");
  */
 std::string currentTimestamp() {
   auto now = std::chrono::system_clock::now();
+  auto seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
+  auto epoch = seconds.time_since_epoch();
+  auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) - epoch;
+
   std::time_t time = std::chrono::system_clock::to_time_t(now);
   std::tm tm;
   localtime_s(&tm, &time); // Use `localtime_r` for POSIX systems
+
   std::ostringstream timestampStream;
-  timestampStream << std::put_time(&tm, "[%Y-%m-%d %H:%M:%S]");
+  timestampStream << std::put_time(&tm, "[%Y-%m-%d %H:%M:%S") << "." << std::setw(6) << std::setfill('0') << millis.count() << "]";
   return timestampStream.str();
 }
 
@@ -56,5 +62,5 @@ std::string currentTimestamp() {
  */
 template<typename T>
 void log_out(T output) { 
-  logFile << currentTimestamp() << " // " << output << std::endl;
+  logFile << currentTimestamp() << " " << output << std::endl;
 }
